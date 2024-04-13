@@ -1,0 +1,27 @@
+# permissions for end users to view webapps.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: webapp-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: crd
+    app.kubernetes.io/part-of: crd
+    app.kubernetes.io/managed-by: kustomize
+  name: webapp-viewer-role
+rules:
+- apiGroups:
+  - view.webapp.github.io
+  resources:
+  - webapps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - view.webapp.github.io
+  resources:
+  - webapps/status
+  verbs:
+  - get

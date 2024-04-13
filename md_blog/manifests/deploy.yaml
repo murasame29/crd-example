@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: harbor.seafood-dev.com/test/webapp:latest
+        volumeMounts:
+          - mountPath: "/app/html"
+            name: html
+        ports:
+        - containerPort: 8080
+      volumes:
+        - name: html
+          hostPath:
+            path: /home/dev/murasame/custom-resource/md_blog/html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  type: NodePort
+  selector:
+    app: webapp
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30050
